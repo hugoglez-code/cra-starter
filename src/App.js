@@ -1,19 +1,19 @@
-import { Amplify } from 'aws-amplify';
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import { Amplify } from "aws-amplify";
 
-import awsExports from './aws-exports';
-import React from 'react';
+import { Home } from "./Home";
+import { Login } from "./Login";
+import "./styles.css";
+
+import awsExports from "./aws-exports";
 Amplify.configure(awsExports);
 
+export default function App() {
+  const { user } = useAuthenticator();
 
-function App({ signOut, user }) {
-  return (
-    <div>
-      <h1>Hello {user.username}</h1>
-      <button onClick={signOut}>Sign out</button>
-      </div>
-  );
+  if (user) {
+    return <Home />;
+  }
+
+  return <Login />;
 }
-
-export default withAuthenticator(App);
